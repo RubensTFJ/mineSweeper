@@ -1,18 +1,19 @@
+package pt.com.minesweep.model;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
-import java.util.Vector;
-import java.util.ArrayList;
 
 public class Block {
 
-		char				mask = 'O';
-		private char		face = ' ';
-
-		private boolean		open = false;
-		private boolean		bomb = false;
-		private boolean		flagged = false;
-		private	long		bombsAround = 0;
-		
-		private List<Block>	neighborhood = null;
+		char					mask = 'O';
+		private char			face = ' ';
+		private boolean			open = false;
+		private boolean			bomb = false;
+		private boolean			flagged = false;
+		private	long			bombsAround = 0;
+		private List<Block>		neighborhood = null;
+		final private JButton	button = new JButton();
 		
 		char getMask() {
 			return this.mask;
@@ -38,10 +39,19 @@ public class Block {
 			return (neighborhood);
 		}
 
+		public Block() {
+			this.button.putClientProperty("type", "block");
+			this.button.putClientProperty("content", this);
+		}
 		void setOpen(boolean att) {
 			this.open = att;
 			if (att == true)
 				this.mask = this.face;
+			button.setBackground(new Color(255, 0, 0));
+			if (!this.isBomb()) {
+				this.button.setText(this.face + "");
+				button.setBackground(new Color(0, 255, 0));
+			}
 		}
 
 		void setBomb(boolean att) {
@@ -56,10 +66,14 @@ public class Block {
 
 		void setFlagged(boolean att) {
 			this.flagged = att;
-			if (att == true)
+			if (att == true) {
 				this.mask = 'f';
-			else
+				this.button.setText("P");
+			}
+			else {
+				this.button.setText("");
 				this.mask = 'O';
+			}
 		}
 
 		public void setNeighborhood(List<Block> neighborhood) {
@@ -70,4 +84,8 @@ public class Block {
 			if (bombsAround > 0 && this.bomb == false)
 				this.face = Long.toString(bombsAround).charAt(0);
 		}
+
+	public JButton getButton() {
+		return button;
+	}
 }
