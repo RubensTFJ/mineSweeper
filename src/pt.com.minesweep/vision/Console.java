@@ -15,7 +15,7 @@ public class Console extends JFrame
 
     int lines = 10;
     int columns = 10;
-    int scale = 60;
+    int scale = 40;
     int height = lines * scale;
     int width = columns * scale;
     Color neutral = new Color(184, 184, 184);
@@ -25,6 +25,15 @@ public class Console extends JFrame
     public Console() {
         buttonFunctions.put("block", this::blockAction);
         buttonFunctions.put(null, this::functionTypeError);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        EventHandler clicked = new EventHandler(e);
+        Function<EventHandler, ?> action = buttonFunctions.get(clicked.type);;
+
+        if (action != null)
+            action.apply(clicked);
     }
 
     private void initWindow() {
@@ -48,11 +57,6 @@ public class Console extends JFrame
         return (1);
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        EventHandler clicked = new EventHandler(e);
-        buttonFunctions.get(clicked.type).apply(clicked);
-    }
 
     public int blockAction(EventHandler click) {
         if (click == null)
@@ -70,7 +74,6 @@ public class Console extends JFrame
     }
 
     private void    restartGame() {
-        setVisible(false);
         this.getContentPane().removeAll();
         mineField = new Field(lines, columns, 10);
         mineField.getButtons().forEach(b -> {
@@ -79,7 +82,6 @@ public class Console extends JFrame
         });
         this.revalidate();
         this.repaint();
-        setVisible(true);
     }
 
     @Override

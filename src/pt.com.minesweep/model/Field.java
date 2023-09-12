@@ -58,9 +58,7 @@ public class Field {
 		}
 	}
 
-	public boolean	checkWin() {
-		System.out.println("opened " + opened);
-		return (opened == (totalBlocks - totalMines));	}
+	public boolean	checkWin() { return (opened == (totalBlocks - totalMines));	}
 
 	private List<Block> getNeighborhood(int x, int y) {
 		List<Block> neighborhood = new ArrayList<>();
